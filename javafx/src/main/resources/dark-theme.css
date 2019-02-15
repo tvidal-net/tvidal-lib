@@ -1,0 +1,28 @@
+.root {
+    -fx-base: #2B2B2B;
+    -fx-accent: #3A3A3A;
+
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: -fx-focus-color;
+    -fx-selection-bar-non-focused: derive(-fx-selection-bar, -20%);
+
+    -fx-control-inner-background: #181818;
+    -fx-control-inner-background-alt: #1C1C1C;
+
+    -fx-text-inner-color: #A9B7C6;
+
+    -fx-font-size: 1.2em;
+}
+
+.cell Text {
+    -fx-fill: -fx-text-inner-color;
+}
+
+.faded {
+    -fx-fill: derive(-fx-base, 25%);
+}
+
+.bold {
+    -fx-fill: #DDD;
+    -fx-font-weight: bold;
+}

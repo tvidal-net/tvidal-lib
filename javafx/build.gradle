@@ -1,0 +1,3 @@
+dependencies {
+    api group: 'no.tornado', name: 'tornadofx', version: tornadofx_version
+}
