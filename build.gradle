@@ -1,0 +1,54 @@
+buildscript {
+    dependencies {
+        classpath group: 'org.jetbrains.kotlin',
+                name: 'kotlin-gradle-plugin',
+                version: kotlin_version
+    }
+}
+
+plugins {
+    id 'idea'
+}
+
+allprojects {
+    group = 'uk.tvidal'
+    version = '0.1-SNAPSHOT'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'idea'
+    apply plugin: 'java-library'
+    apply plugin: 'kotlin'
+
+    dependencies {
+        api group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8'
+        api group: 'org.jetbrains.kotlin', name: 'kotlin-reflect'
+    }
+
+    jar {
+        archivesBaseName = "tvidal-${project.name}"
+        manifest {
+            attributes(
+                    'Implementation-Group': project.group,
+                    'Implementation-Title': archivesBaseName,
+                    'Implementation-Version': project.version
+            )
+        }
+
+        zip64 true
+    }
+
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allSource
+        classifier = 'sources'
+    }
+
+    assemble {
+        dependsOn sourcesJar
+    }
+}
