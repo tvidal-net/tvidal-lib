@@ -46,9 +46,9 @@ abstract class JooqRepository<E : Entity<in Any>, R : TableRecord<R>>(
 
     operator fun <T> get(id: T): E? = query(idField.eq(id)).one()
 
-    protected fun <R : Record> ResultQuery<R>.one(): E? = fetchOne(recordMapper)
-    protected fun <R : Record> ResultQuery<R>.all(): List<E> = fetch(recordMapper)
-    protected fun <R : Record> ResultQuery<R>.sequence(): Sequence<E> = asSequence().map(recordMapper::map)
+    protected fun <T : Record> ResultQuery<T>.one(): E? = fetchOne(recordMapper)
+    protected fun <T : Record> ResultQuery<T>.all(): List<E> = fetch(recordMapper)
+    protected fun <T : Record> ResultQuery<T>.sequence(): Sequence<E> = asSequence().map(recordMapper::map)
 
     protected fun <T> transaction(block: DSLContext.() -> T): T = defaultContext.requireTransaction(block)
 

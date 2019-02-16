@@ -9,8 +9,8 @@ val hasActiveTransaction: Boolean
     get() = transactionContext.get() != null
 
 fun <T> DSLContext.requireTransaction(block: DSLContext.() -> T): T {
-    val current = transactionContext.get()
-    return if (current == null) transactionResult { transactionConfiguration ->
+    val currentTransaction = transactionContext.get()
+    return if (currentTransaction == null) transactionResult { transactionConfiguration ->
         val newTransaction = using(transactionConfiguration)
         transactionContext.set(newTransaction)
         try {
@@ -18,5 +18,5 @@ fun <T> DSLContext.requireTransaction(block: DSLContext.() -> T): T {
         } finally {
             transactionContext.remove()
         }
-    } else block(current)
+    } else block(currentTransaction)
 }
