@@ -22,7 +22,6 @@ allprojects {
 
 subprojects {
     apply plugin: 'idea'
-    apply plugin: 'java-library'
     apply plugin: 'kotlin'
 
     dependencies {
@@ -30,8 +29,9 @@ subprojects {
         api group: 'org.jetbrains.kotlin', name: 'kotlin-reflect'
     }
 
+    archivesBaseName = "tvidal-${project.name}"
+
     jar {
-        archivesBaseName = "tvidal-${project.name}"
         manifest {
             attributes(
                     'Implementation-Group': project.group,
