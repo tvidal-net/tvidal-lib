@@ -2,7 +2,7 @@ buildscript {
     dependencies {
         classpath group: 'org.jetbrains.kotlin',
                 name: 'kotlin-gradle-plugin',
-                version: kotlin_version
+                version: '1.3.21'
     }
 }
 

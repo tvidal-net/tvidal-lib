@@ -1,0 +1,7 @@
+ext {
+    jooq_version = '3.11.9'
+}
+
+dependencies {
+    api group: 'org.jooq', name: 'jooq', version: jooq_version
+}
