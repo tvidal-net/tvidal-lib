@@ -1,5 +1,6 @@
 package uk.tvidal.db.mapper
 
+import org.jooq.Field
 import org.jooq.Record
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty1
@@ -11,7 +12,7 @@ import kotlin.reflect.jvm.jvmErasure
 
 class ReflectionMapper<E : Any>(
     val entityType: KClass<E>,
-    val propertyResolverMap: Map<Class<*>, PropertyResolver<*>> = emptyMap()
+    val propertyResolverMap: Map<Class<*>, PropertyResolver<Any>> = emptyMap()
 ) : EntityMapper<E> {
 
     private val primaryConstructor = entityType.constructors
@@ -23,14 +24,17 @@ class ReflectionMapper<E : Any>(
     private val parameterFields: Map<KParameter, String> = primaryConstructor.parameters
         .associateWith { fieldName(it) }
 
-    private val propertyFields: Map<KMutableProperty1<E, Any>, String>
+    private val mutableProperties: Map<KMutableProperty1<E, Any>, String>
+
+    private val fieldProperties: Map<String, KProperty<*>> = entityType.memberProperties
+        .associateBy { fieldName(it) }
 
     init {
         val parameterNames = parameterFields.keys
             .map { it.name }
             .toSet()
 
-        propertyFields = entityType.memberProperties
+        mutableProperties = entityType.memberProperties
             .asSequence()
             .filterIsInstance<KMutableProperty1<E, Any>>()
             .filterNot { it.name in parameterNames }
@@ -44,6 +48,14 @@ class ReflectionMapper<E : Any>(
         return entity
     }
 
+    override fun toRecord(entity: E, record: Record) {
+        for (field in record.fields().filterIsInstance<Field<Any>>()) {
+            fieldProperties[field.name]?.run {
+                record[field] = databaseValue(entity)
+            }
+        }
+    }
+
     private fun constructorArgs(record: Record): Map<KParameter, Any?> =
         parameterFields.entries.associate { (param, fieldName) ->
             val databaseValue = record[fieldName]
@@ -52,7 +64,7 @@ class ReflectionMapper<E : Any>(
         }
 
     private fun Record.setMutableProperties(entity: E) {
-        for ((property, fieldName) in propertyFields) {
+        for ((property, fieldName) in mutableProperties) {
             val databaseValue = get(fieldName)
             databaseValue?.let {
                 val resolvedValue = property.resolvedValue(it)
@@ -61,18 +73,20 @@ class ReflectionMapper<E : Any>(
         }
     }
 
-    private fun KParameter.resolvedValue(databaseValue: Any?): Any? =
-        databaseValue?.let { resolvedValue(it, type.jvmErasure) }
+    private fun KProperty<*>.databaseValue(entity: E): Any? = call(entity)?.let {
+        val propertyType = returnType.jvmErasure
+        val resolver = propertyResolverMap[propertyType.java]
+        resolver?.toDatabase(it) ?: it
+    }
 
     private fun KProperty<*>.resolvedValue(databaseValue: Any): Any =
         resolvedValue(databaseValue, returnType.jvmErasure)
 
+    private fun KParameter.resolvedValue(databaseValue: Any?): Any? =
+        databaseValue?.let { resolvedValue(it, type.jvmErasure) }
+
     private fun resolvedValue(originalValue: Any, expectedType: KClass<*>): Any {
         val resolver = propertyResolverMap[expectedType.java]
         return resolver?.fromDatabase(originalValue) ?: originalValue
-    }
-
-    override fun toRecord(entity: E, record: Record) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

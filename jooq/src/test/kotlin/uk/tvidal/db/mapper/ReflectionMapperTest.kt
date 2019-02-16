@@ -1,8 +1,12 @@
 package uk.tvidal.db.mapper
 
+import io.mockk.Runs
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.verify
 import org.jooq.Record
+import org.jooq.impl.DSL.field
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
@@ -46,11 +50,27 @@ internal class ReflectionMapperTest {
         }
         val resolverMap = mapOf(
             String::class.java to resolver
-        ) as Map<Class<*>, PropertyResolver<*>>
+        ) as Map<Class<*>, PropertyResolver<Any>>
         val mapper = ReflectionMapper(TestEntity::class, resolverMap)
         val entity = mapper.fromRecord(record)
         val expected = TestEntity("pass")
         assertEquals(expected, entity)
+    }
+
+    @Test
+    fun `set values to record`() {
+        val testName = field("test_name", String::class.java)
+        val testId = field("test_id", Int::class.java)
+        val record = mockk<Record>().also {
+            every { it.fields() } returns arrayOf(testName, testId)
+            every { it.set(testName, any()) } just Runs
+            every { it.set(testId, any()) } just Runs
+        }
+        val mapper = ReflectionMapper(TestEntity::class)
+        val entity = TestEntity("name")
+        mapper.toRecord(entity, record)
+        verify { record.set(testName, "name") }
+        verify { record.set(testId, 0) }
     }
 
     class NoPublicConstructor private constructor()
