@@ -1,6 +1,8 @@
 package uk.tvidal.javafx
 
+import java.net.URL
+
 private class FX
 
-val darkTheme = FX::class.java
+val darkTheme: URL = FX::class.java
     .getResource("/dark-theme.css")

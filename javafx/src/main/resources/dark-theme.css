@@ -13,16 +13,3 @@
 
     -fx-font-size: 1.2em;
 }
-
-.cell Text {
-    -fx-fill: -fx-text-inner-color;
-}
-
-.faded {
-    -fx-fill: derive(-fx-base, 25%);
-}
-
-.bold {
-    -fx-fill: #DDD;
-    -fx-font-weight: bold;
-}
