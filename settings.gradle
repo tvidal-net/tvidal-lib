@@ -1,6 +1,6 @@
 rootProject.name = 'tvidal'
 
-include ':common'
+include ':ansi'
 include ':javafx'
 include ':jooq'
 include ':logging'
