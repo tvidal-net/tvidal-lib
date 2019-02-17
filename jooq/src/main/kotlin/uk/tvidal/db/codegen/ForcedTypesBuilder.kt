@@ -15,10 +15,11 @@ class ForcedTypesBuilder {
             .withExpression(expression)
     }
 
-    inline fun <reified T, reified C> converter(types: String) {
+    inline fun <reified T, reified C> converter(types: String, expression: String = REGEX_ALL) {
         forcedTypes += ForcedType()
             .withUserType(T::class.qualifiedName)
             .withConverter(C::class.qualifiedName)
+            .withExpression(expression)
             .withTypes(types)
     }
 

@@ -6,4 +6,6 @@ dependencies {
     api group: 'org.jooq', name: 'jooq', version: jooq_version
     api group: 'org.jooq', name: 'jooq-meta', version: jooq_version
     api group: 'org.jooq', name: 'jooq-codegen', version: jooq_version
+
+    testRuntimeOnly group: 'com.h2database', name: 'h2', version: '1.4.197'
 }

@@ -17,7 +17,6 @@ import java.time.LocalDate
 import kotlin.reflect.KClass
 
 abstract class JooqCodegen(
-    protected val packageName: String,
     protected val directory: String = "src/main/java"
 ) {
     protected abstract val driver: KClass<out Driver>
@@ -25,14 +24,13 @@ abstract class JooqCodegen(
 
     protected open fun target(): Target = Target()
         .withDirectory(directory)
-        .withPackageName(packageName)
+        .withPackageName(javaClass.`package`.name)
         .withClean(true)
 
     protected open fun generate(): Generate = Generate()
         .withJavaTimeTypes(false)
         .withComments(false)
         .withJavadoc(false)
-        .withRecords(true)
         .withDeprecated(false)
 
     protected open fun database(): Database = Database()
