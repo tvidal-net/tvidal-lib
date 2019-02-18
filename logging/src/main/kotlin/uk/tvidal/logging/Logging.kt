@@ -6,5 +6,4 @@ internal fun javaClassName(cls: Class<*>): String =
     cls.name.substringBefore('$')
 
 internal fun javaClassName(kClass: KClass<*>): String =
-    if (kClass.isCompanion) kClass.java.name.substringBefore(".Companion")
-    else javaClassName(kClass.java)
+    javaClassName(kClass.java)

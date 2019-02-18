@@ -6,6 +6,7 @@ import org.jooq.DSLContext
 import org.jooq.Field
 import org.jooq.Query
 import org.jooq.Record
+import org.jooq.ResultQuery
 import org.jooq.Table
 import org.jooq.exception.NoDataFoundException
 import org.jooq.exception.TooManyRowsException
@@ -35,10 +36,14 @@ abstract class JooqRepository {
         return condition!!
     }
 
-    protected open fun query(where: Condition) = db
+    protected open fun query(whereClause: Condition?): ResultQuery<Record> = db
         .select()
         .from(table)
-        .where(where)!!
+        .apply {
+            whereClause?.let {
+                where(it)
+            }
+        }
 
     protected fun <T> transaction(block: DSLContext.() -> T): T = context.requireTransaction(block)
 

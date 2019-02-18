@@ -22,7 +22,7 @@
     </Appenders>
 
     <Loggers>
-        <Root level="info">
+        <Root level="${sys:log.level:-debug}">
             <AppenderRef ref="${sys:log.appender:-CONSOLE}" />
         </Root>
     </Loggers>

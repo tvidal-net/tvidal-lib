@@ -1,3 +1,8 @@
+configurations {
+    log4j.extendsFrom(apiElements)
+}
+
 dependencies {
     api group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    log4j group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.2'
 }

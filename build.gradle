@@ -36,6 +36,10 @@ subprojects {
 
     archivesBaseName = "tvidal-${project.name}"
 
+    test {
+        useJUnitPlatform()
+    }
+
     jar {
         manifest {
             attributes(
