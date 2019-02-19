@@ -1,0 +1,3 @@
+[submodule "javafx-themes"]
+	path = javafx-themes
+	url = ../javafx-themes.git
