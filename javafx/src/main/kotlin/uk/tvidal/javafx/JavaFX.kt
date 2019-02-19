@@ -4,5 +4,5 @@ import java.net.URL
 
 private class FX
 
-val modenaDark: URL = FX::class.java
-    .getResource("css/modena_dark.css")
+val darkTheme: URL = FX::class.java
+    .getResource("css/dark_theme.css")

@@ -1,0 +1,6 @@
+@import url('modena_dark.css');
+@import url('roboto_font.css');
+
+.cell Text {
+    -fx-fill: -fx-text-inner-color;
+}
