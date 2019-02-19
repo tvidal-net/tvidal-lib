@@ -2,17 +2,17 @@
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    src: local('Roboto'), local('Roboto-Regular'), url('font/Roboto-Regular.ttf') format('truetype');
+    src: local('Roboto'), local('Roboto-Regular'), url('/font/Roboto-Regular.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 700;
-    src: local('Roboto Bold'), local('Roboto-Bold'), url('font/Roboto-Bold.ttf') format('truetype');
+    src: local('Roboto Bold'), local('Roboto-Bold'), url('/font/Roboto-Bold.ttf') format('truetype');
 }
 
 .root {
-    -fx-font-family: Roboto;
+    -fx-font-family: 'Roboto';
     -fx-font-size: 1.3em;
 }
