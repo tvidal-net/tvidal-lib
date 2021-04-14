@@ -34,10 +34,8 @@ abstract class ModelRepository<E : Any> : JooqRepository() {
     protected fun <R : Record> ResultQuery<R>.all(): List<E> = fetchInto(entityType.java)
 
     protected fun <R : Record> ResultQuery<R>.sequence(): Sequence<E> = sequence {
-        fetchLazy().use { cursor ->
-            cursor.forEach {
-                yield(it.toEntity())
-            }
+        fetchLazy().let { cursor ->
+            cursor.forEach { yield(it.toEntity()) }
         }
     }
 

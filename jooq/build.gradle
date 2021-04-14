@@ -1,5 +1,5 @@
 ext {
-    jooq_version = '3.11.9'
+    jooq_version = '3.14.8'
 }
 
 dependencies {
@@ -9,5 +9,5 @@ dependencies {
     api group: 'org.jooq', name: 'jooq-codegen', version: jooq_version
 
     testRuntimeOnly project(path: ':logging', configuration: 'log4j')
-    testRuntimeOnly group: 'com.h2database', name: 'h2', version: '1.4.197'
+    testRuntimeOnly group: 'com.h2database', name: 'h2', version: '1.4.200'
 }

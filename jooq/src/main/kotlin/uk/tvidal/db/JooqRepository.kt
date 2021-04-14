@@ -1,16 +1,8 @@
 package uk.tvidal.db
 
-import org.jooq.Batch
-import org.jooq.Condition
-import org.jooq.DSLContext
-import org.jooq.Field
-import org.jooq.Query
-import org.jooq.Record
-import org.jooq.ResultQuery
-import org.jooq.Table
+import org.jooq.*
 import org.jooq.exception.NoDataFoundException
 import org.jooq.exception.TooManyRowsException
-import org.jooq.Sequence as JooqSequence
 
 @Suppress("UNCHECKED_CAST")
 abstract class JooqRepository {
@@ -22,7 +14,7 @@ abstract class JooqRepository {
         get() = transactionContext.get() ?: context
 
     protected val primaryKeyFields: List<Field<Any>> by lazy {
-        table.primaryKey.fields
+        (table.primaryKey?.fields ?: emptyList())
             .filterIsInstance<Field<Any>>()
     }
 

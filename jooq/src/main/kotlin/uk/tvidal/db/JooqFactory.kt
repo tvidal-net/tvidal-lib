@@ -2,7 +2,8 @@ package uk.tvidal.db
 
 import org.jooq.Configuration
 import org.jooq.DSLContext
-import org.jooq.conf.RenderNameStyle.QUOTED
+import org.jooq.conf.RenderKeywordCase.UPPER
+import org.jooq.conf.RenderQuotedNames.ALWAYS
 import org.jooq.conf.Settings
 import org.jooq.impl.DSL.using
 import org.jooq.impl.DefaultConfiguration
@@ -10,7 +11,8 @@ import javax.sql.DataSource
 
 fun jooqSettings(): Settings = Settings()
     .withRenderFormatted(true)
-    .withRenderNameStyle(QUOTED)
+    .withRenderKeywordCase(UPPER)
+    .withRenderQuotedNames(ALWAYS)
 
 fun jooqConfiguration(
     dataSource: DataSource,

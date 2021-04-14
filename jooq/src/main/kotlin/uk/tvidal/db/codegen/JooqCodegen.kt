@@ -1,13 +1,8 @@
 package uk.tvidal.db.codegen
 
 import org.jooq.codegen.GenerationTool
-import org.jooq.meta.jaxb.Configuration
-import org.jooq.meta.jaxb.Database
-import org.jooq.meta.jaxb.Generate
-import org.jooq.meta.jaxb.Generator
-import org.jooq.meta.jaxb.Jdbc
+import org.jooq.meta.jaxb.*
 import org.jooq.meta.jaxb.Logging.INFO
-import org.jooq.meta.jaxb.Schema
 import org.jooq.meta.jaxb.Target
 import uk.tvidal.db.converter.InstantConverter
 import uk.tvidal.db.converter.LocalDateConverter
@@ -20,7 +15,7 @@ abstract class JooqCodegen(
     protected val directory: String = "src/main/java"
 ) {
     protected abstract val driver: KClass<out Driver>
-    protected abstract val schemata: Schema
+    protected abstract val schemata: SchemaMappingType
 
     protected open fun target(): Target = Target()
         .withDirectory(directory)
@@ -63,11 +58,12 @@ abstract class JooqCodegen(
         )
     }
 
-    protected fun Database.withForcedTypes(block: ForcedTypesBuilder.() -> Unit): Database = withForcedTypes(
-        ForcedTypesBuilder()
-            .apply(block)
-            .forcedTypes
-    )
+    protected fun Database.withForcedTypes(block: ForcedTypesBuilder.() -> Unit): Database =
+        withForcedTypes(
+            ForcedTypesBuilder()
+                .apply(block)
+                .forcedTypes
+        )
 
     companion object {
         const val REGEX_ALL = ".*"
