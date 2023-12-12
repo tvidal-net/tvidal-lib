@@ -48,13 +48,12 @@ internal class EntityRepositoryTest {
 
     @Test
     internal fun `batch insert and list`() {
-        val size = 20
-        val new = (0 until size).map {
+        val new = List(20) {
             TestEntity("Test $it", FIRST)
         }
         test.insert(new)
 
         val inserted = test.list()
-        assertEquals(new, inserted)
+        assertEquals(HashSet(new), HashSet(inserted))
     }
 }

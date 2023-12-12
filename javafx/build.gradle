@@ -1,3 +1,4 @@
 dependencies {
     api group: 'no.tornado', name: 'tornadofx', version: '1.7.20'
+    api "org.openjfx:javafx:15"
 }

@@ -2,7 +2,8 @@ package uk.tvidal.db.test
 
 import org.jooq.Configuration
 import org.jooq.DSLContext
-import org.jooq.conf.RenderNameStyle.UPPER
+import org.jooq.conf.RenderNameCase.UPPER
+import org.jooq.conf.RenderQuotedNames.ALWAYS
 import org.jooq.conf.Settings
 import org.jooq.impl.DSL.using
 import org.jooq.impl.DefaultConfiguration
@@ -34,7 +35,8 @@ class TestRepository : EntityRepository<TestEntity>(TestEntity::class) {
 
             val settings = Settings()
                 .withExecuteLogging(false)
-                .withRenderNameStyle(UPPER)
+                .withRenderQuotedNames(ALWAYS)
+                .withRenderNameCase(UPPER)
 
             config = DefaultConfiguration()
                 .set(settings)

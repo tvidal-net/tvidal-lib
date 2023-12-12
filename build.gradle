@@ -11,6 +11,9 @@ allprojects {
         mavenLocal()
         mavenCentral()
     }
+
+    sourceCompatibility = JavaVersion.VERSION_15
+    targetCompatibility = sourceCompatibility
 }
 
 subprojects {
